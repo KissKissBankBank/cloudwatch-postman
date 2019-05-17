@@ -20,7 +20,7 @@ server.get('/test', (req, res, next) => {
     Namespace: 'cloudwatch-postman',
   }
 
-  request.put({
+  request.post({
     url: `http://localhost:${config.port}/metric`,
     body: JSON.stringify(params),
     headers: {
@@ -35,7 +35,7 @@ server.get('/test', (req, res, next) => {
   next()
 })
 
-server.put('/metric', (req, res, next) => {
+server.post('/metric', (req, res, next) => {
   cloudwatch.putMetricData(req.body, (err, data) => {
     if (err) {
       return console.log(err, err.stack)
