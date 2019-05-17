@@ -1,0 +1,32 @@
+{
+  "name": "cloudwatch-postman",
+  "version": "1.0.0",
+  "description": "A Node proxy to post data to AWS CloudWatch",
+  "main": "index.js",
+  "scripts": {
+    "build": "babel index.js -d dist",
+    "start": "npm run build && node dist/index.js"
+  },
+  "author": {
+    "name": "KissKissBankBank & Co",
+    "email": "dev@kisskissbankbank.com",
+    "url": "https://www.kisskissbankbank.com/fr"
+  },
+  "contributors": [
+    {
+      "name": "Fanny Cheung",
+      "email": "fanny.cheung@kisskissbankbank.com",
+      "url": "http://ynote.hk/"
+    }
+  ],
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.457.0",
+    "restify": "^8.3.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.4",
+    "@babel/preset-env": "^7.4.4"
+  }
+}
