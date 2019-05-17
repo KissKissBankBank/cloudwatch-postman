@@ -33,7 +33,7 @@ AWS_ACCESS_KEY_ID=*** AWS_SECRET_ACCESS_KEY=*** npm start
 This a test endpoint. It sends a metric called `HELLO_WORLD` to a namespace
 called `cloudwatch-postman`.
 
-### PUT /metrics(params = {})
+### POST /metrics(params = {})
 
 As this app is a simple proxy, the params formatting is exactly the same as the
 one you should send to the CloudWatch API. You can find more details on the
