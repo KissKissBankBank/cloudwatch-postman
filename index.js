@@ -8,7 +8,7 @@ const cloudwatch = new CloudWatch({
   region: 'eu-west-1',
 })
 
-server.get('/rum/test', (req, res, next) => {
+server.get('/test', (req, res, next) => {
   const params = {
     MetricData: [
       {
@@ -20,7 +20,7 @@ server.get('/rum/test', (req, res, next) => {
   }
 
   request.put({
-    url: 'http://localhost:8080/rum/create-entry',
+    url: 'http://localhost:8080/metric',
     body: JSON.stringify(params),
     headers: {
       'Content-Type': 'application/json',
@@ -34,7 +34,7 @@ server.get('/rum/test', (req, res, next) => {
   next()
 })
 
-server.put('/rum/create-entry', (req, res, next) => {
+server.put('/metric', (req, res, next) => {
   cloudwatch.putMetricData(req.body, (err, data) => {
     if (err) {
       return console.log(err, err.stack)
