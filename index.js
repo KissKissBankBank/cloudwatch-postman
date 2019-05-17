@@ -16,7 +16,7 @@ server.get('/test', (req, res, next) => {
         Value: 100,
       }
     ],
-    Namespace: 'KissKissBankBank/RUM',
+    Namespace: 'cloudwatch-postman',
   }
 
   request.put({
