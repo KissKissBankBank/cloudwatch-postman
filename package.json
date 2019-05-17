@@ -4,7 +4,7 @@
   "description": "A Node proxy to post data to AWS CloudWatch",
   "main": "index.js",
   "scripts": {
-    "build": "babel index.js -d dist",
+    "build": "babel index.js config.js -d dist",
     "start": "npm run build && node dist/index.js"
   },
   "author": {

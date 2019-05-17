@@ -1,7 +1,7 @@
 import restify from 'restify'
 import CloudWatch from 'aws-sdk/clients/cloudwatch'
 import request from 'request'
-import { config } from 'config.js'
+import { config } from './config.js'
 
 const server = restify.createServer()
 server.use(restify.plugins.bodyParser())
