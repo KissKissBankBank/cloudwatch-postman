@@ -1,11 +1,12 @@
 import restify from 'restify'
 import CloudWatch from 'aws-sdk/clients/cloudwatch'
 import request from 'request'
+import { config } from 'config.js'
 
 const server = restify.createServer()
 server.use(restify.plugins.bodyParser())
 const cloudwatch = new CloudWatch({
-  region: 'eu-west-1',
+  region: config.cloudwatch.region,
 })
 
 server.get('/test', (req, res, next) => {
@@ -20,7 +21,7 @@ server.get('/test', (req, res, next) => {
   }
 
   request.put({
-    url: 'http://localhost:8080/metric',
+    url: `http://localhost:${config.port}/metric`,
     body: JSON.stringify(params),
     headers: {
       'Content-Type': 'application/json',
@@ -46,6 +47,6 @@ server.put('/metric', (req, res, next) => {
   next()
 })
 
-server.listen(8080, () => {
+server.listen(config.port, () => {
   console.log('%s listening at %s', server.name, server.url)
 })
