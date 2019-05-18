@@ -8,7 +8,8 @@
     "clean": "rm -rf dist/*",
     "start": "npm run build && node dist/index.js",
     "serve": "npm run build && node -r dotenv/config dist/index.js",
-    "test": "BABEL_ENV=test NODE_ENV=test mocha --require @babel/register"
+    "test": "BABEL_ENV=test NODE_ENV=test mocha --require @babel/register",
+    "dev:test": "BABEL_ENV=test NODE_ENV=test mocha -r @babel/register -r dotenv/config"
   },
   "repository": {
     "type": "git",
@@ -39,6 +40,7 @@
     "@babel/preset-env": "^7.4.4",
     "@babel/register": "^7.4.4",
     "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "mocha": "^6.1.4"
   }
 }
