@@ -4,7 +4,8 @@
   "description": "A Node proxy to post data to AWS CloudWatch",
   "main": "index.js",
   "scripts": {
-    "build": "babel index.js config.js -d dist",
+    "build": "npm run clean && babel lib -d dist -s",
+    "clean": "rm -rf dist/*",
     "start": "npm run build && node dist/index.js",
     "serve": "npm run build && node -r dotenv/config dist/index.js",
     "test": "BABEL_ENV=test NODE_ENV=test mocha --require @babel/register"
