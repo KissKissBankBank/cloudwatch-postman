@@ -6,7 +6,8 @@
   "scripts": {
     "build": "babel index.js config.js -d dist",
     "start": "npm run build && node dist/index.js",
-    "serve": "npm run build && node -r dotenv/config dist/index.js"
+    "serve": "npm run build && node -r dotenv/config dist/index.js",
+    "test": "BABEL_ENV=test NODE_ENV=test mocha --require @babel/register"
   },
   "repository": {
     "type": "git",
@@ -34,6 +35,9 @@
   "devDependencies": {
     "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.4",
-    "@babel/preset-env": "^7.4.4"
+    "@babel/preset-env": "^7.4.4",
+    "@babel/register": "^7.4.4",
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4"
   }
 }
