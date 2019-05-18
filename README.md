@@ -3,6 +3,8 @@
 CloudWatch Postman is a Node proxy that sends data to [AWS
 CloudWatch](https://aws.amazon.com/fr/cloudwatch/).
 
+![Postman on a bicycle](https://user-images.githubusercontent.com/548778/57973195-5be7e680-79a5-11e9-9422-a8e59faa8384.gif)
+
 - [Prerequisites](#prerequisites)
 - [Quick start](#quick-start)
 - [API](#api)
@@ -72,3 +74,4 @@ PORT | *Optional* - The port on which the server is lauched | Integer | 8080
 
 - [AWS IAM user policies for CloudWatch](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/iam-identity-based-access-control-cwl.html)
 - [AWS IAM user credentials](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/getting-your-credentials.html)
+- [AWS CloudWatch API for putMetricData](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CloudWatch.html#putMetricData-property)
