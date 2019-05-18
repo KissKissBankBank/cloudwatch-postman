@@ -7,6 +7,10 @@
     "build": "babel index.js config.js -d dist",
     "start": "npm run build && node dist/index.js"
   },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/KissKissBankBank/cloudwatch-postman.git"
+  },
   "author": {
     "name": "KissKissBankBank & Co",
     "email": "dev@kisskissbankbank.com",
