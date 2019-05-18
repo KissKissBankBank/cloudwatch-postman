@@ -1,10 +1,21 @@
 import chai, { expect } from 'chai'
 import chaiHttp from 'chai-http'
 import server from './../lib/index'
+import AWS from 'aws-sdk-mock'
 
 global.chai = chai
 global.expect = expect
 chai.use(chaiHttp)
+
+beforeEach(() => {
+  AWS.mock('CloudWatch', 'putMetricData', function (params, callback){
+    callback(null, 'ok');
+  });
+})
+
+afterEach(() => {
+  AWS.restore('CloudWatch')
+})
 
 describe('GET /test', () => {
   it('returns a response', (done) => {
@@ -12,8 +23,7 @@ describe('GET /test', () => {
       .get('/test')
       .end((err, res) => {
         expect(res.status).to.eq(200)
-        expect(JSON.parse(res.body)).to.be.an('object')
-        expect(JSON.parse(res.body)).to.have.key('ResponseMetadata')
+        expect(JSON.parse(res.body)).to.eq('ok')
         done()
       })
   })
@@ -37,8 +47,7 @@ describe('POST /metric', () => {
       .send(JSON.stringify(params))
       .end((err, res) => {
         expect(res.status).to.eq(200)
-        expect(res.body).to.be.an('object')
-        expect(res.body).to.have.key('ResponseMetadata')
+        expect(res.body).to.eq('ok')
         done()
       })
   })
