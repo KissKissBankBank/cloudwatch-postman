@@ -9,13 +9,16 @@
   ],
   "env": {
     "AWS_ACCESS_KEY_ID": {
-      "required": true
+      "required": true,
+      "description": "The AWS IAM user access key id."
     },
     "AWS_REGION": {
-      "required": true
+      "required": true,
+      "description": "  The CloudWatch region."
     },
     "AWS_SECRET_ACCESS_KEY": {
-      "required": true
+      "required": true,
+      "description": "The AWS IAM user secret access key."
     },
     "NPM_CONFIG_PRODUCTION": {
       "required": true
