@@ -39,6 +39,7 @@
     "@babel/core": "^7.4.4",
     "@babel/preset-env": "^7.4.4",
     "@babel/register": "^7.4.4",
+    "aws-sdk-mock": "^4.4.0",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "mocha": "^6.1.4"
