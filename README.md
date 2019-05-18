@@ -80,12 +80,12 @@ AWS_REGION=***
 
 The following variables can be setup in the `.env` file:
 
-Variable | Description | Type | Default value
---- | --- | --- | ---
-`AWS_ACCESS_KEY_ID` | *Required* - The AWS IAM user access key id. | String |
-`AWS_SECRET_ACCESS_KEY` | *Required* - The AWS IAM user secret access key. | String |
-`AWS_REGION` | *Required* - The CloudWatch region | String |
-`PORT` | *Optional* - The port on which the server is lauched | Integer | `8080`
+Variable | Requirement | Description | Default value
+--- | --- | ---  | ---
+`AWS_ACCESS_KEY_ID` | *Required* | The AWS IAM user access key id. |
+`AWS_SECRET_ACCESS_KEY` | *Required* | The AWS IAM user secret access key. |
+`AWS_REGION` | *Required* | The CloudWatch region |
+`PORT` | *Optional* | The port on which the server is lauched | `8080`
 
 ## Resources
 
