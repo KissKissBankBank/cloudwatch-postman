@@ -60,6 +60,7 @@ AWS_REGION=***
 ### Variables
 
 The following variables can be setup in the `.env` file:
+
 Variable | Description | Type | Default value
 --- | --- | --- | ---
 AWS_ACCESS_KEY_ID | *Required* - The AWS IAM user access key id. | String | ""
