@@ -6,7 +6,8 @@ CloudWatch](https://aws.amazon.com/fr/cloudwatch/).
 - [Prerequisites](#prerequisites)
 - [Quick start](#quick-start)
 - [API](#api)
-- [Configuration](#configuration)
+- [Configuration with DotEnv](#configuration-with-dotenv)
+- [Resources](#resources)
 
 ## Prerequisites
 
@@ -23,7 +24,7 @@ npm install
 
 Use your AWS credentials as environment variables to start the app:
 ```sh
-AWS_ACCESS_KEY_ID=*** AWS_SECRET_ACCESS_KEY=*** npm start
+AWS_ACCESS_KEY_ID=*** AWS_SECRET_ACCESS_KEY=*** AWS_REGION=*** npm start
 ```
 
 ## API
@@ -40,11 +41,21 @@ one you should send to the CloudWatch API. You can find more details on the
 [CloudWatch putMetricData
 documentation](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CloudWatch.html#putMetricData-property).
 
-## Configuration
+## Configuration with DotEnv
 
-The `config.js` file enables you to configure the following variables:
+You can set your AWS credentials in a `.env` file:
+```sh
+AWS_ACCESS_KEY_ID=***
+AWS_SECRET_ACCESS_KEY=***
+AWS_REGION=***
+```
 
-Variable | Description | Type | Default
---- | --- | --- | ---
-port | The port where the API is served. | String | "8080"
-cloudwatch.region | The CloudWatch region used to setup your calls to AWS CloudWatch API | String | "eu-west-1"
+And start the app with:
+```sh
+npm run serve
+```
+
+## Resources
+
+- [AWS IAM user policies for CloudWatch](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/iam-identity-based-access-control-cwl.html)
+- [AWS IAM user credentials](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/getting-your-credentials.html)

@@ -5,11 +5,12 @@
   "main": "index.js",
   "scripts": {
     "build": "babel index.js config.js -d dist",
-    "start": "npm run build && node dist/index.js"
+    "start": "npm run build && node dist/index.js",
+    "serve": "npm run build && node -r dotenv/config dist/index.js"
   },
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/KissKissBankBank/cloudwatch-postman.git"
+    "type": "git",
+    "url": "https://github.com/KissKissBankBank/cloudwatch-postman.git"
   },
   "author": {
     "name": "KissKissBankBank & Co",
@@ -26,6 +27,7 @@
   "license": "MIT",
   "dependencies": {
     "aws-sdk": "^2.457.0",
+    "dotenv": "^8.0.0",
     "request": "^2.88.0",
     "restify": "^8.3.2"
   },

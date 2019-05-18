@@ -6,7 +6,9 @@ import { config } from './config.js'
 const server = restify.createServer()
 server.use(restify.plugins.bodyParser())
 const cloudwatch = new CloudWatch({
-  region: config.cloudwatch.region,
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: process.env.AWS_REGION,
 })
 
 server.get('/test', (req, res, next) => {
