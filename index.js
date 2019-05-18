@@ -5,6 +5,7 @@ import { config } from './config.js'
 
 const server = restify.createServer()
 server.use(restify.plugins.bodyParser())
+const port = process.env.PORT || 8080
 const cloudwatch = new CloudWatch({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
@@ -23,7 +24,7 @@ server.get('/test', (req, res, next) => {
   }
 
   request.post({
-    url: `http://localhost:${config.port}/metric`,
+    url: `http://localhost:${port}/metric`,
     body: JSON.stringify(params),
     headers: {
       'Content-Type': 'application/json',
@@ -49,6 +50,6 @@ server.post('/metric', (req, res, next) => {
   next()
 })
 
-server.listen(config.port, () => {
+server.listen(port, () => {
   console.log('%s listening at %s', server.name, server.url)
 })

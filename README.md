@@ -43,17 +43,29 @@ documentation](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CloudWatc
 
 ## Configuration with DotEnv
 
-You can set your AWS credentials in a `.env` file:
+You can set some variables with a `.env` file and start the app with:
 ```sh
+npm run serve
+```
+
+### Example
+```sh
+# .env
+
 AWS_ACCESS_KEY_ID=***
 AWS_SECRET_ACCESS_KEY=***
 AWS_REGION=***
 ```
 
-And start the app with:
-```sh
-npm run serve
-```
+### Variables
+
+The following variables can be setup in the `.env` file:
+Variable | Description | Type | Default value
+--- | --- | --- | ---
+AWS_ACCESS_KEY_ID | *Required* - The AWS IAM user access key id. | String | ""
+AWS_SECRET_ACCESS_KEY | *Required* - The AWS IAM user secret access key. | String | ""
+AWS_REGION | *Required* - The CloudWatch region | String | ""
+PORT | *Optional* - The port on which the server is lauched | Integer | 8080
 
 ## Resources
 
