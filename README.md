@@ -58,6 +58,7 @@ Example JSON body:
   "Namespace": "cloudwatch-postman"
 }
 ```
+
 ## Configuration with Dotenv
 
 You can set some variables with a `.env` file and start the app with:
