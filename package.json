@@ -19,7 +19,7 @@
       "url": "http://ynote.hk/"
     }
   ],
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "aws-sdk": "^2.457.0",
     "request": "^2.88.0",
