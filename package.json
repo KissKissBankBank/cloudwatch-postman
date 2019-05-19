@@ -9,7 +9,7 @@
     "start": "npm run build && node dist/index.js",
     "serve": "npm run build && node -r dotenv/config dist/index.js",
     "test": "BABEL_ENV=test NODE_ENV=test mocha --require @babel/register",
-    "dev:test": "npm run build && BABEL_ENV=test NODE_ENV=test mocha -r @babel/register -r dotenv/config"
+    "dev:test": "BABEL_ENV=test NODE_ENV=test mocha -r @babel/register -r dotenv/config"
   },
   "repository": {
     "type": "git",
