@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+if [ -z "$1" ]
+  then
+    echo "You need to supply version (patch|minor|major or specific tag)"
+    exit
+fi
+echo "You're about to deploy the next version of cloudwatch-postman (${1}) on
+Heroku"
+git co master
+git pull origin master
+npm i
+npm run dev:test
+npm --no-git-tag-version version $1
+git add .
+git commit -m "Update cloudwatch-postman version to $1"
+git push origin master
+REALEASE_TAG="v$1"
+git tag -a ${REALEASE_TAG} -m "Release $1"
+git push origin ${REALEASE_TAG}
+git push heroku master
