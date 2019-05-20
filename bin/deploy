@@ -6,8 +6,6 @@ if [ -z "$1" ]
 fi
 echo "You're about to deploy the next version of cloudwatch-postman (${1}) on
 Heroku"
-git co master
-git pull origin master
 npm i
 npm run dev:test
 npm --no-git-tag-version version $1

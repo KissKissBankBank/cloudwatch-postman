@@ -3,6 +3,9 @@
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [unreleased]
+
+## [3.0.0](https://github.com/KissKissBankBank/cloudwatch-postman/compare/v2.0.0...v3.0.0) - 2019-05-20
+
 Breaking changes:
 - Remove the application token authorization on `GET /test` endpoint.
 - Add rate limit by IP on server endpoints. All endpoints follows these options for `restify-throttle`:
@@ -26,7 +29,7 @@ The `GET /test` endpoint has a specific throttle:
 Feature:
 - Update token creation strategy - [#8](https://github.com/KissKissBankBank/cloudwatch-postman/pull/8)
 
-## [2.0.0] - 2019-05-20$
+## [2.0.0](https://github.com/KissKissBankBank/cloudwatch-postman/compare/v1.0.0...v2.0.0) - 2019-05-20$
 
 Breaking changes:
 - Add an authorization with an access token to request POST /metric - [#7](https://github.com/KissKissBankBank/cloudwatch-postman/pull/7)
