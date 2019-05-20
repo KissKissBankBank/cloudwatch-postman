@@ -3,6 +3,26 @@
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [unreleased]
+Breaking changes:
+- Remove the application token authorization on `GET /test` endpoint.
+- Add rate limit by IP on server endpoints. All endpoints follows these options for `restify-throttle`:
+```js
+{
+  burst: 3,  // Max 3 concurrent requests
+  rate: 1,  // 1 request / second
+  ip: true,   // throttle per IP
+}
+```
+
+The `GET /test` endpoint has a specific throttle:
+```js
+{
+  burst: 1,
+  rate: 0.015, // 1 request / minute
+  ip: true,
+}
+```
+
 Feature:
 - Update token creation strategy - [#8](https://github.com/KissKissBankBank/cloudwatch-postman/pull/8)
 
