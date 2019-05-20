@@ -35,60 +35,20 @@ describe('=========== index.js ==========', () => {
   })
 
   describe('GET /test', () => {
-    describe('with a valid app token', () => {
-      it('returns a 200 with a data object', (done) => {
-        const appToken = createTestAppToken()
+    it('returns a 200 with a data object', (done) => {
+      const appToken = createTestAppToken()
 
-        chai.request(server)
-          .get(`/test?appToken=${appToken}`)
-          .end((err, res) => {
-            const { status, body } = res
-            const response = JSON.parse(body)
+      chai.request(server)
+        .get(`/test?appToken=${appToken}`)
+        .end((err, res) => {
+          const { status, body } = res
+          const response = JSON.parse(body)
 
-            expect(status).to.eq(200)
-            expect(response.ResponseMetadata.RequestId).to.eq('foobar')
+          expect(status).to.eq(200)
+          expect(response.ResponseMetadata.RequestId).to.eq('foobar')
 
-            done()
-          })
-      })
-    })
-
-    describe('with an invalid app token', () => {
-      it('returns a 401 with an error object', (done) => {
-        const appToken = 'aliceInWonderland'
-
-        chai.request(server)
-          .get(`/test?appToken=${appToken}`)
-          .end((err, res) => {
-            const { status, body } = res
-            const response = JSON.parse(body)
-
-            expect(status).to.eq(401)
-            expect(response.error.code).to.eq(101)
-            expect(response.error.message)
-              .to.eq('Required parameter "appToken" is invalid.')
-
-            done()
-          })
-      })
-    })
-
-    describe('without an app token', () => {
-      it('returns a 403 with an error object', (done) => {
-        chai.request(server)
-          .get('/test')
-          .end((err, res) => {
-            const { status, body } = res
-            const response = JSON.parse(body)
-
-            expect(status).to.eq(403)
-            expect(response.error.code).to.eq(100)
-            expect(response.error.message)
-              .to.eq('Required parameter is missing: "appToken".')
-
-            done()
-          })
-      })
+          done()
+        })
     })
   })
 
