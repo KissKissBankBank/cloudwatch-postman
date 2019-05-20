@@ -37,6 +37,6 @@ Breaking change:
 Feature:
 - [#7](https://github.com/KissKissBankBank/cloudwatch-postman/pull/7) - Add POST /token endpoint to enable client to request an access token
 
-## [1.0.0] - 2019-05-19
+## 1.0.0 - 2019-05-19
 
 - First release!
