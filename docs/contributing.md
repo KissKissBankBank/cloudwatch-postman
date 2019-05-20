@@ -12,14 +12,15 @@ To contribute code:
 - Create a pull request on GitHub with a clear title in English.
 - Add a explicit description of the problem you are trying to solve or the
   feature you want to add.
-- Don't forget to update the `CHANGELOG.md` under the `[unreleased]` section
-  with the following syntax:
+- Update the `CHANGELOG.md` under the `[unreleased]` section with the
+following syntax:
 
   ```md
   - Breaking change: a breaking change.
   - Feature: a new feature.
   - Fix: a fix.
   ```
+- On your CHANGELOG entry, link the PR related to your modification.
 
 ## Running the app locally
 
