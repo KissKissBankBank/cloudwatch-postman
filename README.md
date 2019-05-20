@@ -1,16 +1,26 @@
 # CloudWatch Postman
 
 CloudWatch Postman is a Node proxy that sends data to [Amazon
-CloudWatch](https://aws.amazon.com/cloudwatch/).
+CloudWatch](https://aws.amazon.com/cloudwatch/). It enables you to serve your
+own API endpoints with your AWS credentials.
+
+- For the moment, configuration of this API is set with environment variables.
+- Its first purpose is to serve some endpoints so an cliend-side application can
+  call it to send data to CloudWatch.
 
 ![Postman on a bicycle](https://user-images.githubusercontent.com/548778/57973195-5be7e680-79a5-11e9-9422-a8e59faa8384.gif)
 
 - [Prerequisites](#prerequisites)
 - [Quick start](#quick-start)
 - [How to request the API](#how-to-request-the-api)
-  - [Create your application token](#create-your-application-token)
+  - [What is a unique access token?](#what-is-a-unique-access-token)
+  - [When is a unique access token used?](#when-is-a-unique-access-token-used)
+  - [How to get a unique access token?](#how-to-get-a-unisque-access-token)
+  - [How to generate your application
+    token](#how-to-generate-your-application-token)
 - [API](#api)
 - [Configuration with Dotenv](#configuration-with-dotenv)
+- [Contributing](#contributing)
 - [Resources](#resources)
 
 ## Prerequisites
@@ -28,7 +38,7 @@ npm install
 ```
 
 Choose an `APP_SECRET_KEY` and an `ACCESS_TOKEN_SECRET_KEY`. These secret values
-will be used to generate tokens to access the API.
+will be used by CloudWatch Postman to generate tokens to access the API.
 
 Use these secrets and your AWS credentials as environment variables to start
 the app:
@@ -41,15 +51,28 @@ Test the API on [http://localhost:8080/test](http://localhost:8080/test).
 
 ## How to request the API
 
-### Using an access token
+You can request the API using a unique access token.
 
-Access token allows a little more secure endpoint for the developers. Every
-endpoint, except the `POST /token` one, needs an `accessToken` to be requested.
+### What is a unique access token?
+
+As CloudWatch Postman is firstly meant to be called by a client-side
+application, unique access tokens can secure a little bit more the API endpoints.
+You need to exchange your [application token](#create-your-application-token) to
+obtain a unique access token. This latter have a default expiration of one
+hour.
+
+### When is a unique access token used?
+
+Every endpoint, except the `POST /token` one, needs an `accessToken` to be
+requested. We advise you to fetch it on your client-side application as soon as
+possible if you know that you will need to query the API.
+
+### How to get a unique access token?
 
 You can fetch an `accessToken` on the `POST /token` endpoint with your
-[application token](#create-your-application-token).
+[application token](#how-to-generate-your-application-token).
 
-### Create your application token
+### How to generate your application token
 
 This section explains how to generate an application token to request an access
 token for the API.
@@ -79,43 +102,9 @@ Buffer.from([timestamp, salt, hash].join('::')).toString('base64')
 
 ## API
 
-### GET /test
+You can check the existing endpoints of this API in [the
+documentation](https://github.com/KissKissBankBank/cloudwatch-postman/tree/master/docs/api.md).
 
-This a test endpoint. It sends a metric called `HELLO_WORLD` to a namespace
-called `cloudwatch-postman`.
-
-Example of query:
-```sh
-GET /test?appToken=YOUR_GENERATED_APP_TOKEN
-```
-
-### POST /token
-
-WIP
-
-### POST /metrics
-
-As this app is a simple proxy, the params formatting is exactly the same as the
-one you should send to the CloudWatch API. You can find more details on the
-[CloudWatch putMetricData
-documentation](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CloudWatch.html#putMetricData-property).
-
-Example JSON body:
-
-```json
-{
-  "accessToken": "YOUR_ACCESS_TOKEN",
-  "params": {
-    "MetricData": [
-      {
-        "MetricName": "HELLO_WORLD",
-        "Value": 100
-      }
-    ],
-    "Namespace": "cloudwatch-postman"
-  }
-}
-```
 
 ## Configuration with Dotenv
 
@@ -132,6 +121,8 @@ npm run serve
 AWS_ACCESS_KEY_ID=***
 AWS_SECRET_ACCESS_KEY=***
 AWS_REGION=***
+APP_SECRET_KEY=***
+ACCESS_TOKEN_SECRET_KEY=***
 ```
 
 ### Variables
@@ -146,6 +137,11 @@ Variable | Requirement | Description | Default value
 `APP_SECRET_KEY` | *Required* | Your app secret key. You will share it on your consumer app to generate your application token. |
 `ACCESS_TOKEN_SECRET_KEY` | *Required* | Your access token secret key. It is used to generate all the access tokens. |
 `PORT` | *Optional* | The port on which the server is lauched | `8080`
+
+## Contributing
+
+Please refer to the [contributing
+documentation](https://github.com/KissKissBankBank/cloudwatch-postman/tree/master/docs/contributing.md).
 
 ## Resources
 
