@@ -3,6 +3,8 @@
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [unreleased]
+Feature:
+- Update token creation strategy - [#8](https://github.com/KissKissBankBank/cloudwatch-postman/pull/8)
 
 ## [2.0.0] - 2019-05-20$
 

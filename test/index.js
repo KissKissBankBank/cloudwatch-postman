@@ -20,7 +20,7 @@ export const createTestAppToken = () => {
   const delimiter = '::'
   const hash = generateHash(`${date}${salt}${secret}`)
 
-  return generateToken([date, salt, secret], delimiter)
+  return generateToken([date, salt, hash], delimiter)
 }
 
 describe('=========== index.js ==========', () => {
