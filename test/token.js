@@ -39,14 +39,18 @@ describe('========== token.js ==========', () => {
 
   describe('generateHash', () => {
     it('returns a string', () => {
-      const updateSpy = sandbox.spy()
+      const digestSpy = sandbox.spy()
+      const stubbedUpdate = sandbox
+        .stub()
+        .returns({ digest: digestSpy })
       const stubbedCreateHash = sandbox
         .stub(crypto, 'createHash')
-        .returns({ update: updateSpy })
+        .returns({ update: stubbedUpdate })
 
       generateHash('Alice in Wonderland')
       expect(stubbedCreateHash).to.have.been.calledWith('sha256')
-      expect(updateSpy).to.have.been.calledWith('Alice in Wonderland')
+      expect(stubbedUpdate).to.have.been.calledWith('Alice in Wonderland')
+      expect(digestSpy).to.have.been.calledWith('base64')
     })
   })
 
@@ -122,7 +126,7 @@ describe('========== token.js ==========', () => {
           const delimiter = '::'
           const hash = generateHash(`${expiredTokenTime}${salt}${secret}`)
 
-          return generateToken([expiredTokenTime, salt, secret], delimiter)
+          return generateToken([expiredTokenTime, salt, hash], delimiter)
         }
         const token = createTestAccessToken()
 
@@ -149,7 +153,7 @@ describe('========== token.js ==========', () => {
             const delimiter = '::'
             const hash = generateHash(`${tokenTime}${salt}${secret}`)
 
-            return generateToken([tokenTime, salt, secret], delimiter)
+            return generateToken([tokenTime, salt, hash], delimiter)
           }
           const token = createTestAccessToken()
 
