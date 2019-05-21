@@ -42,10 +42,9 @@ describe('=========== index.js ==========', () => {
         .get(`/test?appToken=${appToken}`)
         .end((err, res) => {
           const { status, body } = res
-          const response = JSON.parse(body)
 
           expect(status).to.eq(200)
-          expect(response.ResponseMetadata.RequestId).to.eq('foobar')
+          expect(body.ResponseMetadata.RequestId).to.eq('foobar')
 
           done()
         })
@@ -135,10 +134,9 @@ describe('=========== index.js ==========', () => {
           .send(JSON.stringify(params))
           .end((err, res) => {
             const { status, body } = res
-            const response = JSON.parse(body)
 
             expect(status).to.eq(201)
-            expect(response.ResponseMetadata.RequestId).to.eq('foobar')
+            expect(body.ResponseMetadata.RequestId).to.eq('foobar')
 
             done()
           })
