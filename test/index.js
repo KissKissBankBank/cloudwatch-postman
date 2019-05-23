@@ -26,7 +26,7 @@ export const createTestAppToken = () => {
 describe('=========== index.js ==========', () => {
   beforeEach(() => {
     AWS.mock('CloudWatch', 'putMetricData', function (params, callback){
-      callback(null, "{\"ResponseMetadata\":{\"RequestId\":\"foobar\"}}")
+      callback(null, { ResponseMetadata: { RequestId: 'foobar' }})
     });
   })
 
@@ -42,10 +42,9 @@ describe('=========== index.js ==========', () => {
         .get(`/test?appToken=${appToken}`)
         .end((err, res) => {
           const { status, body } = res
-          const response = JSON.parse(body)
 
           expect(status).to.eq(200)
-          expect(response.ResponseMetadata.RequestId).to.eq('foobar')
+          expect(body.ResponseMetadata.RequestId).to.eq('foobar')
 
           done()
         })
@@ -63,10 +62,9 @@ describe('=========== index.js ==========', () => {
           .send(JSON.stringify({ appToken }))
           .end((err, res) => {
             const { status, body } = res
-            const response = JSON.parse(body)
 
             expect(status).to.eq(201)
-            expect(response).to.have.key('accessToken')
+            expect(body).to.have.key('accessToken')
 
             done()
           })
@@ -83,11 +81,10 @@ describe('=========== index.js ==========', () => {
           .send(JSON.stringify({ appToken }))
           .end((err, res) => {
             const { status, body } = res
-            const response = JSON.parse(body)
 
             expect(status).to.eq(401)
-            expect(response.error.code).to.eq(101)
-            expect(response.error.message)
+            expect(body.error.code).to.eq(101)
+            expect(body.error.message)
               .to.eq('Required parameter "appToken" is invalid.')
 
             done()
@@ -102,11 +99,10 @@ describe('=========== index.js ==========', () => {
           .set('Content-Type', 'application/json')
           .end((err, res) => {
             const { status, body } = res
-            const response = JSON.parse(body)
 
             expect(status).to.eq(403)
-            expect(response.error.code).to.eq(100)
-            expect(response.error.message)
+            expect(body.error.code).to.eq(100)
+            expect(body.error.message)
               .to.eq('Required parameter is missing: "appToken".')
 
             done()
@@ -138,10 +134,9 @@ describe('=========== index.js ==========', () => {
           .send(JSON.stringify(params))
           .end((err, res) => {
             const { status, body } = res
-            const response = JSON.parse(body)
 
             expect(status).to.eq(201)
-            expect(response.ResponseMetadata.RequestId).to.eq('foobar')
+            expect(body.ResponseMetadata.RequestId).to.eq('foobar')
 
             done()
           })
@@ -171,11 +166,10 @@ describe('=========== index.js ==========', () => {
           .send(JSON.stringify(params))
           .end((err, res) => {
             const { status, body } = res
-            const response = JSON.parse(body)
 
             expect(status).to.eq(401)
-            expect(response.error.code).to.eq(111)
-            expect(response.error.message)
+            expect(body.error.code).to.eq(111)
+            expect(body.error.message)
               .to.eq('Required parameter "accessToken" is invalid.')
 
             done()
@@ -203,11 +197,10 @@ describe('=========== index.js ==========', () => {
           .send(JSON.stringify(params))
           .end((err, res) => {
             const { status, body } = res
-            const response = JSON.parse(body)
 
             expect(status).to.eq(403)
-            expect(response.error.code).to.eq(110)
-            expect(response.error.message)
+            expect(body.error.code).to.eq(110)
+            expect(body.error.message)
               .to.eq('Required parameter is missing: "accessToken".')
 
             done()
