@@ -253,5 +253,73 @@ describe('=========== index.js ==========', () => {
       })
     })
 
+    describe('with an invalid access token', () => {
+      it('returns a 401 with an error object', (done) => {
+        const accessToken = 'aliceInWonderland'
+
+        const params = {
+          accessToken,
+          params: {
+            logGroupName: 'RUM',
+            logStreamName: 'cloudwatch-postman-test',
+            logEvents: [
+              {
+                message: 'This is a test.',
+                timestamp: '1558602946107',
+              },
+            ],
+            sequenceToken: 'the-cheshire-cat',
+          },
+        }
+
+        chai.request(server)
+          .post('/logEvents')
+          .set('Content-Type', 'application/json')
+          .send(JSON.stringify(params))
+          .end((err, res) => {
+            const { status, body } = res
+
+            expect(status).to.eq(401)
+            expect(body.error.code).to.eq(111)
+            expect(body.error.message)
+              .to.eq('Required parameter "accessToken" is invalid.')
+
+            done()
+          })
+      })
+    })
+
+    describe('without an access token', () => {
+      it('returns a 403 with an error object', (done) => {
+        const params = {
+          params: {
+            logGroupName: 'RUM',
+            logStreamName: 'cloudwatch-postman-test',
+            logEvents: [
+              {
+                message: 'This is a test.',
+                timestamp: '1558602946107',
+              },
+            ],
+            sequenceToken: 'the-cheshire-cat',
+          },
+        }
+
+        chai.request(server)
+          .post('/logEvents')
+          .set('Content-Type', 'application/json')
+          .send(JSON.stringify(params))
+          .end((err, res) => {
+            const { status, body } = res
+
+            expect(status).to.eq(403)
+            expect(body.error.code).to.eq(110)
+            expect(body.error.message)
+              .to.eq('Required parameter is missing: "accessToken".')
+
+            done()
+          })
+      })
+    })
   })
 })
