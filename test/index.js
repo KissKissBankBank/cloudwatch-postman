@@ -208,4 +208,50 @@ describe('=========== index.js ==========', () => {
       })
     })
   })
+
+  describe('POST /logEvents', () => {
+    beforeEach(() => {
+      AWS.mock('CloudWatchLogs', 'putLogEvents', function (params, callback){
+        callback(null, { nextSequenceToken: 'foobar' })
+      });
+    })
+
+    afterEach(() => {
+      AWS.restore('CloudWatchLogs')
+    })
+
+    describe('with a valid access token', () => {
+      it('returns a response', (done) => {
+        const accessToken = createAccessToken()
+        const params = {
+          accessToken,
+          params: {
+            logGroupName: 'RUM',
+            logStreamName: 'cloudwatch-postman-test',
+            logEvents: [
+              {
+                message: 'This is a test.',
+                timestamp: '1558602946107',
+              },
+            ],
+            sequenceToken: 'the-cheshire-cat',
+          },
+        }
+
+        chai.request(server)
+          .post('/logEvents')
+          .set('Content-Type', 'application/json')
+          .send(JSON.stringify(params))
+          .end((err, res) => {
+            const { status, body } = res
+
+            expect(status).to.eq(201)
+            expect(body.nextSequenceToken).to.eq('foobar')
+
+            done()
+          })
+      })
+    })
+
+  })
 })
