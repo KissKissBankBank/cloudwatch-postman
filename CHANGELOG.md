@@ -4,6 +4,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [unreleased]
 
+## [3.1.0](https://github.com/KissKissBankBank/cloudwatch-postman/compare/v3.0.0...v3.1.0) - 2019-05-23
+
+- [#18](https://github.com/KissKissBankBank/cloudwatch-postman/pull/18) - Add an endpoint `POST /logEvents` to create log events in CloudWatch
+
+Feature:
+- [#18](https://github.com/KissKissBankBank/cloudwatch-postman/pull/18) - Add an endpoint `POST /logEvents` to create log events in CloudWatch
+
 ## [3.0.0](https://github.com/KissKissBankBank/cloudwatch-postman/compare/v2.0.0...v3.0.0) - 2019-05-20
 
 Breaking changes:
