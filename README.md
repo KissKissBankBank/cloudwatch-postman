@@ -83,13 +83,14 @@ You will needs these values:
 - a random salt value,
 - your `APP_SECRET_KEY`,
 
-Concatenate these 3 values and hash them with a `sha256` algorithm. Here is an
+Concatenate these 3 values and hash them with a `sha256` algorithm digested in
+`base64`. Here is an
 example in JavaScript:
 ```js
 import crypto from 'crypto'
 
 const data = `${timestamp}${salt}${appSecretKey}`
-const hash = crypto.createHash('sha256').update(data)
+const hash = crypto.createHash('sha256').update(data).digest('base64')
 ```
 
 Then, generate your token:
