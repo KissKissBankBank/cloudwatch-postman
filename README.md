@@ -57,7 +57,7 @@ You can request the API using a unique access token.
 
 As CloudWatch Postman is firstly meant to be called by a client-side
 application, unique access tokens can secure a little bit more the API endpoints.
-You need to exchange your [application token](#create-your-application-token) to
+You need to exchange your [client token](#how-to-generate-your-client-token) to
 obtain a unique access token. This latter have a default expiration of one
 hour.
 
@@ -70,7 +70,7 @@ possible if you know that you will need to query the API.
 ### How to get a unique access token?
 
 You can fetch an `accessToken` on the `POST /token` endpoint with your
-[application token](#how-to-generate-your-application-token).
+[client token](#how-to-generate-your-client-token).
 
 ### How to generate your client token
 
