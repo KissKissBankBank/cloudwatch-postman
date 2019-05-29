@@ -4,6 +4,15 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [unreleased]
 
+Breaking change:
+- [#21](https://github.com/KissKissBankBank/cloudwatch-postman/pull/21) - Change
+  the configuration variable `APP_SECRET_KEY` into `CLIENT_SECRET_KEY`
+
+Feature:
+- [#20](https://github.com/KissKissBankBank/cloudwatch-postman/pull/20) - Add
+  CORS handling on API endpoints
+
+
 ## [3.1.0](https://github.com/KissKissBankBank/cloudwatch-postman/compare/v3.0.0...v3.1.0) - 2019-05-23
 
 - [#18](https://github.com/KissKissBankBank/cloudwatch-postman/pull/18) - Add an endpoint `POST /logEvents` to create log events in CloudWatch
