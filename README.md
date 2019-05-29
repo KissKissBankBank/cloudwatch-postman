@@ -54,7 +54,32 @@ Test the API on [http://localhost:8080/test](http://localhost:8080/test).
 
 ## How to request the API
 
-You can request the API using a unique access token.
+You can request the API using a unique access token:
+
+```
++--------------------+                               +--------------------+
+|                    | 2. Ask for an access token.   |                    |
+|                    | +------- POST /token -------> |                    |
+|                    |                               |                    |
+|       Client       | <---------------------------+ |                    |
+| (your application) | 3. The API returns a valid    |      The API       |
+|                    |    access token.              |                    |
+|                    |                               | cloudwatch-postman |
+|  1. Create your    |                               |                    |
+|     client token.  |                               |                    |
+|                    |                               |                    |
+|                    |                               |                    |
+|                    |                               |                    |
+|                    |                               |                    |
+|                    | 4. Make API calls with the    |                    |
+|                    |    valid access token.        |                    |
+|                    |                               |                    |
+|                    | +---- eg. POST /metric -----> |                    |
+|                    |                               |                    |
+|                    | (by default, the access token |                    |
+|                    |  is valid for one hour)       |                    |
++--------------------+                               +--------------------+
+```
 
 ### What is a unique access token?
 
