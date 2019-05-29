@@ -17,10 +17,9 @@ export const createTestClientToken = () => {
   const date = new Date().getTime()
   const salt = generateSalt(8)
   const secret = process.env.CLIENT_SECRET_KEY
-  const delimiter = '::'
   const hash = generateHash(`${date}${salt}${secret}`)
 
-  return generateToken([date, salt, hash], delimiter)
+  return generateToken([date, salt, hash])
 }
 
 describe('=========== index.js ==========', () => {
