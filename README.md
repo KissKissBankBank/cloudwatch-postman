@@ -17,8 +17,7 @@ credentials.
   - [What is a unique access token?](#what-is-a-unique-access-token)
   - [When is a unique access token used?](#when-is-a-unique-access-token-used)
   - [How to get a unique access token?](#how-to-get-a-unisque-access-token)
-  - [How to generate your application
-    token](#how-to-generate-your-application-token)
+  - [How to generate your client token](#how-to-generate-your-client-token)
 - [API](#api)
 - [Configuration with Dotenv](#configuration-with-dotenv)
 - [Contributing](#contributing)
