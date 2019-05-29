@@ -73,9 +73,9 @@ possible if you know that you will need to query the API.
 You can fetch an `accessToken` on the `POST /token` endpoint with your
 [application token](#how-to-generate-your-application-token).
 
-### How to generate your application token
+### How to generate your client token
 
-This section explains how to generate an application token to request an access
+This section explains how to generate an client token to request an access
 token for the API.
 
 You will needs these values:
