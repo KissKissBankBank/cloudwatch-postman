@@ -40,25 +40,53 @@ npm install
 Choose an `CLIENT_SECRET_KEY` and an `ACCESS_TOKEN_SECRET_KEY`. These secret values
 will be used by CloudWatch Postman to generate tokens to access the API.
 
-Use these secrets and your AWS credentials as environment variables to start
-the app:
+[Create a `.env` file](#configuration-with-dotenv) with these secrets and your
+AWS credentials.
+
+Start the app:
 
 ```sh
-CLIENT_SECRET_KEY=*** ACCESS_TOKEN_SECRET_KEY=*** AWS_ACCESS_KEY_ID=*** AWS_SECRET_ACCESS_KEY=*** AWS_REGION=*** npm start
+npm run serve
 ```
 
 Test the API on [http://localhost:8080/test](http://localhost:8080/test).
 
 ## How to request the API
 
-You can request the API using a unique access token.
+You can request the API using a unique access token:
+
+```
++--------------------+                               +--------------------+
+|                    | 2. Ask for an access token.   |                    |
+|                    | +------- POST /token -------> |                    |
+|                    |                               |                    |
+|       Client       | <---------------------------+ |                    |
+| (your application) | 3. The API returns a valid    |      The API       |
+|                    |    access token.              |                    |
+|                    |                               | cloudwatch-postman |
+|  1. Create your    |                               |                    |
+|     client token.  |                               |                    |
+|                    |                               |                    |
+|                    |                               |                    |
+|                    |                               |                    |
+|                    |                               |                    |
+|                    | 4. Make API calls with the    |                    |
+|                    |    valid access token.        |                    |
+|                    |                               |                    |
+|                    | +---- eg. POST /metric -----> |                    |
+|                    |                               |                    |
+|                    | (by default, the access token |                    |
+|                    |  is valid for one hour)       |                    |
++--------------------+                               +--------------------+
+```
 
 ### What is a unique access token?
 
 As CloudWatch Postman is firstly meant to be called by a client-side
 application, unique access tokens can secure a little bit more the API endpoints.
+
 You need to exchange your [client token](#how-to-generate-your-client-token) to
-obtain a unique access token. This latter have a default expiration of one
+obtain a unique access token. The latter have a default expiration of one
 hour.
 
 ### When is a unique access token used?
@@ -100,6 +128,13 @@ Here is an example in JavaScript:
 ```js
 Buffer.from([timestamp, salt, hash].join('::')).toString('base64')
 ```
+
+### Tokens usage
+
+Name | Usage | How to get it | Expiration
+--- | --- | ---  | ---
+  Access token | An access token is used for each call to the API endpoints, except `POST /token` and `GET /test`. It has to be included in the JSON body of your calls along with your other parameters `{ accessToken: "aValidAccessToken" }`. | You can fetch a valid access token on `POST /token` with your client token. | By default, an access token has a one hour validity from the moment it is sent to the client.
+Client token | The client token is used to fetch a valid access token on `POST /token`. It has to be included in the JSON body of your call `{ clientToken: 'yourClientToken'}`. | You have to [generate your client token](#how-to-generate-your-client-token) on your side. | By default, a client token has a one day validity from the moment it is generated on your side.
 
 ## API
 
