@@ -61,7 +61,7 @@ describe('========== token.js ==========', () => {
         .returns({ toString: toStringSpy })
 
       generateToken(['alice', 'in', 'wonderland'], '-')
-      expect(stubbedFrom).to.have.been.calledWith('alice-in-wonderland')
+      expect(stubbedFrom).to.have.been.calledWith('alice::in::wonderland')
       expect(toStringSpy).to.have.been.calledWith('base64')
     })
   })
@@ -122,10 +122,9 @@ describe('========== token.js ==========', () => {
           const expiredTokenTime = expiredTokenDate.getTime()
           const salt = generateSalt(12)
           const secret = process.env.ACCESS_TOKEN_SECRET_KEY
-          const delimiter = '::'
           const hash = generateHash(`${expiredTokenTime}${salt}${secret}`)
 
-          return generateToken([expiredTokenTime, salt, hash], delimiter)
+          return generateToken([expiredTokenTime, salt, hash])
         }
         const token = createTestAccessToken()
 
@@ -149,10 +148,9 @@ describe('========== token.js ==========', () => {
             const tokenTime = today.getTime()
             const salt = generateSalt(12)
             const secret = 'wrong-secret'
-            const delimiter = '::'
             const hash = generateHash(`${tokenTime}${salt}${secret}`)
 
-            return generateToken([tokenTime, salt, hash], delimiter)
+            return generateToken([tokenTime, salt, hash])
           }
           const token = createTestAccessToken()
 
@@ -181,10 +179,9 @@ describe('========== token.js ==========', () => {
           const expiredTokenTime = expiredTokenDate.getTime()
           const salt = generateSalt(8)
           const secret = process.env.APP_SECRET_KEY
-          const delimiter = '::'
           const hash = generateHash(`${expiredTokenTime}${salt}${secret}`)
 
-          return generateToken([expiredTokenTime, salt, secret], delimiter)
+          return generateToken([expiredTokenTime, salt, secret])
         }
         const token = createExpiredAppAccessToken()
 
@@ -208,10 +205,9 @@ describe('========== token.js ==========', () => {
           const tokenTime = today.getTime()
           const salt = generateSalt(8)
           const secret = 'wrong-secret'
-          const delimiter = '::'
           const hash = generateHash(`${tokenTime}${salt}${secret}`)
 
-          return generateToken([tokenTime, salt, secret], delimiter)
+          return generateToken([tokenTime, salt, secret])
         }
         const token = createWrongAppAccessToken()
 
