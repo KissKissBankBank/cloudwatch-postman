@@ -41,11 +41,13 @@ npm install
 Choose an `APP_SECRET_KEY` and an `ACCESS_TOKEN_SECRET_KEY`. These secret values
 will be used by CloudWatch Postman to generate tokens to access the API.
 
-Use these secrets and your AWS credentials as environment variables to start
-the app:
+[Create a `.env` file](#configuration-with-dotenv) with these secrets and your
+AWS credentials.
+
+Start the app:
 
 ```sh
-APP_SECRET_KEY=*** ACCESS_TOKEN_SECRET_KEY=*** AWS_ACCESS_KEY_ID=*** AWS_SECRET_ACCESS_KEY=*** AWS_REGION=*** npm start
+npm run serve
 ```
 
 Test the API on [http://localhost:8080/test](http://localhost:8080/test).
@@ -59,7 +61,7 @@ You can request the API using a unique access token.
 As CloudWatch Postman is firstly meant to be called by a client-side
 application, unique access tokens can secure a little bit more the API endpoints.
 You need to exchange your [application token](#create-your-application-token) to
-obtain a unique access token. This latter have a default expiration of one
+obtain a unique access token. The latter have a default expiration of one
 hour.
 
 ### When is a unique access token used?

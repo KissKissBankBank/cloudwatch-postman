@@ -40,7 +40,7 @@ documentation](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CloudWatc
 Example of a curl query:
 ```sh
 curl -XPOST -H "Content-type: application/json" -d '{
-  "accessToken": "YOUR_UNIQUE_ACCESS_TOKEN"
+  "accessToken": "YOUR_UNIQUE_ACCESS_TOKEN",
   "params": {
     "MetricData": [
       {
