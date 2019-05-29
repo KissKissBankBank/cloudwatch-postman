@@ -6,11 +6,11 @@ import {
   generateHash,
   generateToken,
   isTokenExpired,
-  isAppTokenValid,
+  isClientTokenValid,
   isAccessTokenValid,
   createAccessToken,
 } from '../lib/token'
-import { createTestAppToken } from './index'
+import { createTestClientToken } from './index'
 
 global.chai = chai
 global.expect = expect
@@ -61,7 +61,7 @@ describe('========== token.js ==========', () => {
         .returns({ toString: toStringSpy })
 
       generateToken(['alice', 'in', 'wonderland'], '-')
-      expect(stubbedFrom).to.have.been.calledWith('alice-in-wonderland')
+      expect(stubbedFrom).to.have.been.calledWith('alice::in::wonderland')
       expect(toStringSpy).to.have.been.calledWith('base64')
     })
   })
@@ -122,10 +122,9 @@ describe('========== token.js ==========', () => {
           const expiredTokenTime = expiredTokenDate.getTime()
           const salt = generateSalt(12)
           const secret = process.env.ACCESS_TOKEN_SECRET_KEY
-          const delimiter = '::'
           const hash = generateHash(`${expiredTokenTime}${salt}${secret}`)
 
-          return generateToken([expiredTokenTime, salt, hash], delimiter)
+          return generateToken([expiredTokenTime, salt, hash])
         }
         const token = createTestAccessToken()
 
@@ -149,10 +148,9 @@ describe('========== token.js ==========', () => {
             const tokenTime = today.getTime()
             const salt = generateSalt(12)
             const secret = 'wrong-secret'
-            const delimiter = '::'
             const hash = generateHash(`${tokenTime}${salt}${secret}`)
 
-            return generateToken([tokenTime, salt, hash], delimiter)
+            return generateToken([tokenTime, salt, hash])
           }
           const token = createTestAccessToken()
 
@@ -171,7 +169,7 @@ describe('========== token.js ==========', () => {
     })
   })
 
-  describe('isAppTokenValid', () => {
+  describe('isClientTokenValid', () => {
     describe('when access token is expired', () => {
       it('returns false', () => {
         const createExpiredAppAccessToken = () => {
@@ -180,24 +178,23 @@ describe('========== token.js ==========', () => {
           expiredTokenDate.setDate(today.getDate() - 2)
           const expiredTokenTime = expiredTokenDate.getTime()
           const salt = generateSalt(8)
-          const secret = process.env.APP_SECRET_KEY
-          const delimiter = '::'
+          const secret = process.env.CLIENT_SECRET_KEY
           const hash = generateHash(`${expiredTokenTime}${salt}${secret}`)
 
-          return generateToken([expiredTokenTime, salt, secret], delimiter)
+          return generateToken([expiredTokenTime, salt, secret])
         }
         const token = createExpiredAppAccessToken()
 
-        expect(isAppTokenValid(token)).to.eq(false)
+        expect(isClientTokenValid(token)).to.eq(false)
       })
     })
 
     describe('when access token is valid', () => {
       describe('with a correct secret', () => {
         it('returns true', () => {
-          const token = createTestAppToken()
+          const token = createTestClientToken()
 
-          expect(isAppTokenValid(token)).to.eq(true)
+          expect(isClientTokenValid(token)).to.eq(true)
         })
       })
 
@@ -208,14 +205,13 @@ describe('========== token.js ==========', () => {
           const tokenTime = today.getTime()
           const salt = generateSalt(8)
           const secret = 'wrong-secret'
-          const delimiter = '::'
           const hash = generateHash(`${tokenTime}${salt}${secret}`)
 
-          return generateToken([tokenTime, salt, secret], delimiter)
+          return generateToken([tokenTime, salt, secret])
         }
         const token = createWrongAppAccessToken()
 
-          expect(isAppTokenValid(token)).to.eq(false)
+          expect(isClientTokenValid(token)).to.eq(false)
         })
       })
 
@@ -223,7 +219,7 @@ describe('========== token.js ==========', () => {
         it('returns false', () => {
           const token = 'alice-in-wonderland'
 
-          expect(isAppTokenValid(token)).to.eq(false)
+          expect(isClientTokenValid(token)).to.eq(false)
         })
       })
     })

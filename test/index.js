@@ -13,14 +13,13 @@ global.chai = chai
 global.expect = expect
 chai.use(chaiHttp)
 
-export const createTestAppToken = () => {
+export const createTestClientToken = () => {
   const date = new Date().getTime()
   const salt = generateSalt(8)
-  const secret = process.env.APP_SECRET_KEY
-  const delimiter = '::'
+  const secret = process.env.CLIENT_SECRET_KEY
   const hash = generateHash(`${date}${salt}${secret}`)
 
-  return generateToken([date, salt, hash], delimiter)
+  return generateToken([date, salt, hash])
 }
 
 describe('=========== index.js ==========', () => {
@@ -36,10 +35,8 @@ describe('=========== index.js ==========', () => {
 
   describe('GET /test', () => {
     it('returns a 200 with a data object', (done) => {
-      const appToken = createTestAppToken()
-
       chai.request(server)
-        .get(`/test?appToken=${appToken}`)
+        .get(`/test`)
         .end((err, res) => {
           const { status, body } = res
 
@@ -54,12 +51,12 @@ describe('=========== index.js ==========', () => {
   describe('POST /token', () => {
     describe('with a valid app token', () => {
       it('returns a 201 with the newly created access token', (done) => {
-        const appToken = createTestAppToken()
+        const clientToken = createTestClientToken()
 
         chai.request(server)
           .post('/token')
           .set('Content-Type', 'application/json')
-          .send(JSON.stringify({ appToken }))
+          .send(JSON.stringify({ clientToken }))
           .end((err, res) => {
             const { status, body } = res
 
@@ -73,19 +70,19 @@ describe('=========== index.js ==========', () => {
 
     describe('with an invalid app token', () => {
       it('returns a 401 with an error object', (done) => {
-        const appToken = 'aliceInWonderland'
+        const clientToken = 'aliceInWonderland'
 
         chai.request(server)
           .post('/token')
           .set('Content-Type', 'application/json')
-          .send(JSON.stringify({ appToken }))
+          .send(JSON.stringify({ clientToken }))
           .end((err, res) => {
             const { status, body } = res
 
             expect(status).to.eq(401)
             expect(body.error.code).to.eq(101)
             expect(body.error.message)
-              .to.eq('Required parameter "appToken" is invalid.')
+              .to.eq('Required parameter "clientToken" is invalid.')
 
             done()
           })
@@ -103,7 +100,7 @@ describe('=========== index.js ==========', () => {
             expect(status).to.eq(403)
             expect(body.error.code).to.eq(100)
             expect(body.error.message)
-              .to.eq('Required parameter is missing: "appToken".')
+              .to.eq('Required parameter is missing: "clientToken".')
 
             done()
           })
