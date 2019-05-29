@@ -133,8 +133,8 @@ Buffer.from([timestamp, salt, hash].join('::')).toString('base64')
 
 Name | Usage | How to get it | Expiration
 --- | --- | ---  | ---
-Access token | An access token is mandatory for each call to the API endpoints, except `POST /token` and `GET /test`. It has to be included in the JSON body of your calls `{ accessToken: "aValidAccessToken" }`. | You can fetch a valid access token on `POST /token` with your client token. | By default, an access token has a one hour validity from the moment it is sent to the client.
-Client token | The client token is used to fetch a valid access token on `POST /token`. It has to be included in the JSON body of your call `{ clientToken: 'yourClientToken'}`. | You have to [generate your client token](#how-to-generate-your-client-token) on your side. | By default, a client token has a one day validity.
+  Access token | An access token is used for each call to the API endpoints, except `POST /token` and `GET /test`. It has to be included in the JSON body of your calls along with your other parameters `{ accessToken: "aValidAccessToken" }`. | You can fetch a valid access token on `POST /token` with your client token. | By default, an access token has a one hour validity from the moment it is sent to the client.
+Client token | The client token is used to fetch a valid access token on `POST /token`. It has to be included in the JSON body of your call `{ clientToken: 'yourClientToken'}`. | You have to [generate your client token](#how-to-generate-your-client-token) on your side. | By default, a client token has a one day validity from the moment it is generated on your side.
 
 ## API
 
