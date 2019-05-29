@@ -180,7 +180,7 @@ describe('========== token.js ==========', () => {
           expiredTokenDate.setDate(today.getDate() - 2)
           const expiredTokenTime = expiredTokenDate.getTime()
           const salt = generateSalt(8)
-          const secret = process.env.APP_SECRET_KEY
+          const secret = process.env.CLIENT_SECRET_KEY
           const delimiter = '::'
           const hash = generateHash(`${expiredTokenTime}${salt}${secret}`)
 

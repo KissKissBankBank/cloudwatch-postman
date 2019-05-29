@@ -16,7 +16,7 @@ chai.use(chaiHttp)
 export const createTestAppToken = () => {
   const date = new Date().getTime()
   const salt = generateSalt(8)
-  const secret = process.env.APP_SECRET_KEY
+  const secret = process.env.CLIENT_SECRET_KEY
   const delimiter = '::'
   const hash = generateHash(`${date}${salt}${secret}`)
 
