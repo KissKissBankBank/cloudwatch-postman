@@ -76,4 +76,19 @@ curl -XPOST -H "Content-type: application/json" -d '{
 "logStreamName": "cloudwatch-postman-test",
 "logEvents": [{"message": "[cloudwatch-postman] This is a test.", "timestamp": 1559157389833}]
 }' 'http://localhost:8080/logEvents'
+
+# =>
+#  {
+#    message: 'New log events are queued to be sent to CloudWatch Logs.',
+#    jobsParameters: {
+#      logGroupName: 'HELLO_WORLD',
+#      logStreamName: 'cloudwatch-postman-test',
+#      logEvents: [
+#        {
+#          message: '[cloudwatch-postman] This is a test.',
+#          timestamp: 1559157389833
+#        }
+#      ],
+#    }
+#  }
 ```
