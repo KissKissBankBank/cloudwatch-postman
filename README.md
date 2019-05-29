@@ -38,14 +38,14 @@ Install the dependencies:
 npm install
 ```
 
-Choose an `APP_SECRET_KEY` and an `ACCESS_TOKEN_SECRET_KEY`. These secret values
+Choose an `CLIENT_SECRET_KEY` and an `ACCESS_TOKEN_SECRET_KEY`. These secret values
 will be used by CloudWatch Postman to generate tokens to access the API.
 
 Use these secrets and your AWS credentials as environment variables to start
 the app:
 
 ```sh
-APP_SECRET_KEY=*** ACCESS_TOKEN_SECRET_KEY=*** AWS_ACCESS_KEY_ID=*** AWS_SECRET_ACCESS_KEY=*** AWS_REGION=*** npm start
+CLIENT_SECRET_KEY=*** ACCESS_TOKEN_SECRET_KEY=*** AWS_ACCESS_KEY_ID=*** AWS_SECRET_ACCESS_KEY=*** AWS_REGION=*** npm start
 ```
 
 Test the API on [http://localhost:8080/test](http://localhost:8080/test).
@@ -81,7 +81,7 @@ token for the API.
 You will needs these values:
 - the current timestamp,
 - a random salt value,
-- your `APP_SECRET_KEY`,
+- your `CLIENT_SECRET_KEY`,
 
 Concatenate these 3 values and hash them with a `sha256` algorithm digested in
 `base64`. Here is an
@@ -123,7 +123,7 @@ npm run serve
 AWS_ACCESS_KEY_ID=***
 AWS_SECRET_ACCESS_KEY=***
 AWS_REGION=***
-APP_SECRET_KEY=***
+CLIENT_SECRET_KEY=***
 ACCESS_TOKEN_SECRET_KEY=***
 ```
 
@@ -136,7 +136,7 @@ Variable | Requirement | Description | Default value
 `AWS_ACCESS_KEY_ID` | *Required* | The AWS IAM user access key id. |
 `AWS_SECRET_ACCESS_KEY` | *Required* | The AWS IAM user secret access key. |
 `AWS_REGION` | *Required* | The CloudWatch region |
-`APP_SECRET_KEY` | *Required* | Your app secret key. You will share it on your consumer app to generate your application token. |
+`CLIENT_SECRET_KEY` | *Required* | Your client secret key. You will share it on your consumer app to generate your client token. |
 `ACCESS_TOKEN_SECRET_KEY` | *Required* | Your access token secret key. It is used to generate all the access tokens. |
 `PORT` | *Optional* | The port on which the server is lauched | `8080`
 
