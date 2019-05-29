@@ -55,3 +55,25 @@ curl -XPOST -H "Content-type: application/json" -d '{
 # =>
 #  {"ResponseMetadata":{"RequestId":"d2d4ad73-7b0f-11e9-9e4e-0b02b7f4bf5c"}}
 ```
+
+### POST /logEvents
+
+This endpoint does a little more than a simple proxy and enqueues a batch of
+logs to send to CloudWatch Logs.
+
+As [CloudWatch Logs
+API](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutLogEvents.html)
+needs a `sequenceToken` for each call, this endpoint enables you to delegate the
+implementation of the sequential requesting by using a background worker. You
+can just send the data you want to CloudWatch Logs and CloudWatch Postman will
+enqueue this request for you in a background job.
+
+Example of a curl query:
+```sh
+curl -XPOST -H "Content-type: application/json" -d '{
+"accessToken": "YOUR_UNIQUE_ACCESS_TOKEN",
+"logGroupName": "HELLO_WORLD",
+"logStreamName": "cloudwatch-postman-test",
+"logEvents": [{"message": "[cloudwatch-postman] This is a test.", "timestamp": 1559157389833}]
+}' 'http://localhost:8080/logEvents'
+```

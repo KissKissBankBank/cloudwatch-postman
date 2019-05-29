@@ -243,7 +243,7 @@ describe('=========== index.js ==========', () => {
             expect(stubbedAdd).to.have.been.calledOnce
             expect(status).to.eq(201)
             expect(body.message)
-              .to.eq('New log events are queued to be sent to Cloudwatch Logs.')
+              .to.eq('New log events are queued to be sent to CloudWatch Logs.')
 
             done()
           })

@@ -9,7 +9,7 @@ Breaking change:
   the configuration variable `APP_SECRET_KEY` into `CLIENT_SECRET_KEY`
 - [#24](https://github.com/KissKissBankBank/cloudwatch-postman/pull/24) - Update
   `POST /logEvents` endpoint:
-  - Delegate sequenced calls to Cloudwatch Logs to a dedicated worker,
+  - Delegate sequenced calls to CloudWatch Logs to a dedicated worker,
   - Change request parameters. You should pass the following parameters now:
   ```
   {
