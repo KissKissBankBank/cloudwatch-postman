@@ -6,11 +6,11 @@ import {
   generateHash,
   generateToken,
   isTokenExpired,
-  isAppTokenValid,
+  isClientTokenValid,
   isAccessTokenValid,
   createAccessToken,
 } from '../lib/token'
-import { createTestAppToken } from './index'
+import { createTestClientToken } from './index'
 
 global.chai = chai
 global.expect = expect
@@ -171,7 +171,7 @@ describe('========== token.js ==========', () => {
     })
   })
 
-  describe('isAppTokenValid', () => {
+  describe('isClientTokenValid', () => {
     describe('when access token is expired', () => {
       it('returns false', () => {
         const createExpiredAppAccessToken = () => {
@@ -188,16 +188,16 @@ describe('========== token.js ==========', () => {
         }
         const token = createExpiredAppAccessToken()
 
-        expect(isAppTokenValid(token)).to.eq(false)
+        expect(isClientTokenValid(token)).to.eq(false)
       })
     })
 
     describe('when access token is valid', () => {
       describe('with a correct secret', () => {
         it('returns true', () => {
-          const token = createTestAppToken()
+          const token = createTestClientToken()
 
-          expect(isAppTokenValid(token)).to.eq(true)
+          expect(isClientTokenValid(token)).to.eq(true)
         })
       })
 
@@ -215,7 +215,7 @@ describe('========== token.js ==========', () => {
         }
         const token = createWrongAppAccessToken()
 
-          expect(isAppTokenValid(token)).to.eq(false)
+          expect(isClientTokenValid(token)).to.eq(false)
         })
       })
 
@@ -223,7 +223,7 @@ describe('========== token.js ==========', () => {
         it('returns false', () => {
           const token = 'alice-in-wonderland'
 
-          expect(isAppTokenValid(token)).to.eq(false)
+          expect(isClientTokenValid(token)).to.eq(false)
         })
       })
     })
