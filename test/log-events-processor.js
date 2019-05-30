@@ -2,7 +2,18 @@ import chai, { expect } from 'chai'
 import AWS from 'aws-sdk-mock'
 import sinon from 'sinon'
 import sinonChai from 'sinon-chai'
-import * as logEventsProcessor from '../lib/log-events-processor'
+import {
+  tokenKey,
+  getValidSequenceToken,
+  saveValidSequenceToken,
+  putLogEvents,
+  completeJobSuccessfully,
+  shouldRefetchValidToken,
+  handleCloudWatchPutLogEventsError,
+  saveRefetchedToken,
+  handleCloudWatchLogsError,
+  processor,
+} from '../lib/log-events-processor'
 import * as CloudWatchLogs from '../lib/cloudwatch-logs'
 
 global.chai = chai
@@ -15,8 +26,7 @@ const sinonTest = require('sinon-test')(sinon)
 describe('=========== log-events-processor.js ==========', () => {
   describe('tokenKey', () => {
     it('returns a formatted key', () => {
-      expect(logEventsProcessor.tokenKey('alice', 'cat'))
-        .to.eq('alice-cat-next-token')
+      expect(tokenKey('alice', 'cat')).to.eq('alice-cat-next-token')
     })
   })
 
@@ -26,7 +36,7 @@ describe('=========== log-events-processor.js ==========', () => {
       sinonTest(function() {
         const stubbedRedisGet = this.stub(redis.prototype, 'get')
 
-        logEventsProcessor.getValidSequenceToken('alice', 'cat')
+        getValidSequenceToken('alice', 'cat')
         expect(stubbedRedisGet).to.have.been.calledWith('alice-cat-next-token')
       }),
     )
@@ -36,7 +46,7 @@ describe('=========== log-events-processor.js ==========', () => {
     it('save the passed token into Redis', sinonTest(function() {
       const stubbedRedisSet = this.stub(redis.prototype, 'set')
 
-      logEventsProcessor.saveValidSequenceToken('cheshire', 'alice', 'cat')
+      saveValidSequenceToken('cheshire', 'alice', 'cat')
       expect(stubbedRedisSet)
         .to.have.been.calledWith('alice-cat-next-token', 'cheshire')
     }))
@@ -52,7 +62,7 @@ describe('=========== log-events-processor.js ==========', () => {
         }
       }
       const token = 'cheshire-cat'
-      const spyPromise = this.spy(
+      const stubbedPromise = this.stub(
         CloudWatchLogs,
         'cloudwatchPutLogEvents'
       )
@@ -63,9 +73,9 @@ describe('=========== log-events-processor.js ==========', () => {
         logEvents: [],
       }
 
-      logEventsProcessor.putLogEvents(job)(token)
+      putLogEvents(job)(token)
 
-      expect(spyPromise).to.have.been.calledWith(expectedParams)
+      expect(stubbedPromise).to.have.been.calledWith(expectedParams)
     }))
   })
 
@@ -81,7 +91,7 @@ describe('=========== log-events-processor.js ==========', () => {
         }
       }
 
-      logEventsProcessor.completeJobSuccessfully(job, spyDone)(cloudwatchResponse)
+      completeJobSuccessfully(job, spyDone)(cloudwatchResponse)
         .then(() => {
           expect(spyDone).to.have.been.calledWith(null, 'Alice in Wonderland')
           done()
@@ -90,8 +100,6 @@ describe('=========== log-events-processor.js ==========', () => {
   })
 
   describe('shouldRefetchValidToken', () => {
-    const { shouldRefetchValidToken } = logEventsProcessor
-
     describe('when it matches the error code', () => {
       it('it returns true with InvalidSequenceTokenException', () => {
         expect(shouldRefetchValidToken('InvalidSequenceTokenException'))
@@ -112,11 +120,9 @@ describe('=========== log-events-processor.js ==========', () => {
   })
 
   describe('handleCloudWatchPutLogEventsError', () => {
-    const { handleCloudWatchPutLogEventsError } = logEventsProcessor
-
     describe('when a token should be fetched again', () => {
       it('returns a Promise', sinonTest(function() {
-        const spyPromise = this.spy(
+        const stubbedPromise = this.stub(
           CloudWatchLogs,
           'cloudwatchDescribeLogStreams',
         )
@@ -136,7 +142,7 @@ describe('=========== log-events-processor.js ==========', () => {
 
         handleCloudWatchPutLogEventsError(job)(error)
 
-        expect(spyPromise).to.have.been.calledWith(expectedParams)
+        expect(stubbedPromise).to.have.been.calledWith(expectedParams)
       }))
     })
 
@@ -152,6 +158,157 @@ describe('=========== log-events-processor.js ==========', () => {
             done()
           }
         )
+      })
+    })
+  })
+
+  describe('saveRefetchedToken', () => {
+    it('returns a Promise', sinonTest(function(done) {
+      const spyDone = this.spy()
+      const job = {
+        data: {
+          logGroupName: 'Alice',
+          logStreamName: 'Wonderland',
+          logEvents: [],
+        }
+      }
+      const cloudwatchResponse = {
+        logStreams: [
+          { uploadSequenceToken: 'alice' },
+        ],
+      }
+
+      saveRefetchedToken(job, spyDone)(cloudwatchResponse)
+        .then(() => {
+          expect(spyDone).to.have.been.called
+          done()
+        })
+    }))
+  })
+
+  describe('handleCloudWatchLogsError', () => {
+    it('completes the job with an error', sinonTest(function() {
+      const spyDone = this.spy()
+      const error = 'alice'
+
+      handleCloudWatchLogsError(spyDone)(error)
+
+      expect(spyDone).to.have.been.calledWith('alice')
+    }))
+  })
+
+  describe('processor', () => {
+    describe('when putLogEvents is successful', () => {
+      it('completes the job with CloudWatch Logs response', sinonTest(function(done) {
+        const stubbedPromise = this
+          .stub(CloudWatchLogs, 'cloudwatchPutLogEvents')
+          .resolves({
+            nextSequenceToken: 'madhatter'
+          })
+        const spyDone = this.spy()
+        const job = {
+          data: {
+            logGroupName: 'Alice',
+            logStreamName: 'Wonderland',
+            logEvents: [],
+          }
+        }
+
+        processor(job, spyDone).then(() => {
+          expect(spyDone).to.have.been.calledWith(null, {
+            nextSequenceToken: 'madhatter'
+          })
+          done()
+        })
+      }))
+    })
+
+    describe('when putLogEvents fails', () => {
+      describe('when a valid token can be fetched again', () => {
+        describe('when describeLogStreams is successful', () => {
+          it(
+            'completes the job with CloudWatch Logs error',
+            sinonTest(function(done) {
+              const stubbedPutLogEvents = this
+                .stub(CloudWatchLogs, 'cloudwatchPutLogEvents')
+                .rejects({ code: 'InvalidSequenceTokenException' })
+              const stubbedDescribeLogStreams = this
+                .stub(CloudWatchLogs, 'cloudwatchDescribeLogStreams')
+                .resolves({
+                  logStreams: [
+                    { uploadSequenceToken: 'madhatter' },
+                  ],
+                })
+              const spyDone = this.spy()
+              const job = {
+                data: {
+                  logGroupName: 'Alice',
+                  logStreamName: 'Wonderland',
+                  logEvents: [],
+                },
+                attempts: 0,
+              }
+
+              processor(job, spyDone).then(a => {
+                const message = (
+                  'The given sequence token is invalid.' +
+                  '\n==> A valid token madhatter has been refetched and saved.' +
+                  '\n====> The job has reached its maximum retries.'
+                )
+                expect(spyDone.args[0][0].message).to.eql(message)
+                done()
+              })
+            })
+          )
+        })
+
+        describe('when describeLogStreams fails', () => {
+          it(
+            'completes the job with CloudWatch Logs error',
+            sinonTest(function(done) {
+              const stubbedPutLogEvents = this
+                .stub(CloudWatchLogs, 'cloudwatchPutLogEvents')
+                .rejects({ code: 'InvalidSequenceTokenException' })
+              const stubbedDescribeLogStreams = this
+                .stub(CloudWatchLogs, 'cloudwatchDescribeLogStreams')
+                .rejects('Tweedledee')
+              const spyDone = this.spy()
+              const job = {
+                data: {
+                  logGroupName: 'Alice',
+                  logStreamName: 'Wonderland',
+                  logEvents: [],
+                }
+              }
+
+              processor(job, spyDone).then(a => {
+                expect(spyDone.args[0][0].name).to.eq('Tweedledee')
+                done()
+              })
+            })
+          )
+        })
+      })
+
+      describe('when these is another failing reason', () => {
+        it('completes the job with CloudWatch Logs error', sinonTest(function(done) {
+          const stubbedPromise = this
+            .stub(CloudWatchLogs, 'cloudwatchPutLogEvents')
+            .rejects('teatime')
+          const spyDone = this.spy()
+          const job = {
+            data: {
+              logGroupName: 'Alice',
+              logStreamName: 'Wonderland',
+              logEvents: [],
+            }
+          }
+
+          processor(job, spyDone).then(a => {
+            expect(spyDone.args[0][0].name).to.eq('teatime')
+            done()
+          })
+        }))
       })
     })
   })
