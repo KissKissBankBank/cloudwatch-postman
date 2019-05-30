@@ -49,6 +49,7 @@
     "chai-http": "^4.3.0",
     "mocha": "^6.1.4",
     "sinon": "^7.3.2",
-    "sinon-chai": "^3.3.0"
+    "sinon-chai": "^3.3.0",
+    "sinon-test": "^2.4.0"
   }
 }
