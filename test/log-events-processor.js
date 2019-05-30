@@ -198,35 +198,38 @@ describe('=========== log-events-processor.js ==========', () => {
 
   describe('processor', () => {
     describe('when putLogEvents is successful', () => {
-      it('completes the job with CloudWatch Logs response', sinonTest(function(done) {
-        const stubbedPromise = this
-          .stub(CloudWatchLogs, 'cloudwatchPutLogEvents')
-          .resolves({
-            nextSequenceToken: 'madhatter'
-          })
-        const spyDone = this.spy()
-        const job = {
-          data: {
-            logGroupName: 'Alice',
-            logStreamName: 'Wonderland',
-            logEvents: [],
+      it(
+        'completes the job with CloudWatch Logs response',
+        sinonTest(function(done) {
+          const stubbedPromise = this
+            .stub(CloudWatchLogs, 'cloudwatchPutLogEvents')
+            .resolves({
+              nextSequenceToken: 'madhatter'
+            })
+          const spyDone = this.spy()
+          const job = {
+            data: {
+              logGroupName: 'Alice',
+              logStreamName: 'Wonderland',
+              logEvents: [],
+            }
           }
-        }
 
-        processor(job, spyDone).then(() => {
-          expect(spyDone).to.have.been.calledWith(null, {
-            nextSequenceToken: 'madhatter'
+          processor(job, spyDone).then(() => {
+            expect(spyDone).to.have.been.calledWith(null, {
+              nextSequenceToken: 'madhatter'
+            })
+            done()
           })
-          done()
         })
-      }))
+      )
     })
 
     describe('when putLogEvents fails', () => {
       describe('when a valid token can be fetched again', () => {
         describe('when describeLogStreams is successful', () => {
           it(
-            'completes the job with CloudWatch Logs error',
+            'saves the token and completes the job with a specific error',
             sinonTest(function(done) {
               const stubbedPutLogEvents = this
                 .stub(CloudWatchLogs, 'cloudwatchPutLogEvents')
@@ -263,7 +266,7 @@ describe('=========== log-events-processor.js ==========', () => {
 
         describe('when describeLogStreams fails', () => {
           it(
-            'completes the job with CloudWatch Logs error',
+            'completes the job with CloudWatch Logs describeLogStreams error',
             sinonTest(function(done) {
               const stubbedPutLogEvents = this
                 .stub(CloudWatchLogs, 'cloudwatchPutLogEvents')
