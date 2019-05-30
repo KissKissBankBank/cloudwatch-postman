@@ -1,5 +1,4 @@
 import chai, { expect } from 'chai'
-import AWS from 'aws-sdk-mock'
 import sinon from 'sinon'
 import sinonChai from 'sinon-chai'
 import {
