@@ -28,7 +28,7 @@ credentials.
 - Node.js,
 - Redis,
 - Amazon CloudWatch,
-- an AWS account that can call CloudWatch with read and write access.
+- an AWS IAM account that can call CloudWatch with read and write access.
 
 ## Quick start
 
