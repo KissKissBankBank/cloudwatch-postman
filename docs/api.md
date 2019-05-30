@@ -7,7 +7,7 @@ called `cloudwatch-postman`.
 
 Example of a curl query:
 ```sh
-curl -XGET -I 'http://localhost:8080/test?appToken=YOUR_GENERATED_APP_TOKEN'
+curl -XGET -I 'http://localhost:8080/test'
 
 # =>
 #  HTTP/1.1 200 OK
