@@ -42,7 +42,7 @@ describe('=========== log-events-processor.js ==========', () => {
   })
 
   describe('saveValidSequenceToken', () => {
-    it('save the passed token into Redis', sinonTest(function() {
+    it('saves the passed token into Redis', sinonTest(function() {
       const stubbedRedisSet = this.stub(redis.prototype, 'set')
 
       saveValidSequenceToken('cheshire', 'alice', 'cat')
@@ -100,19 +100,19 @@ describe('=========== log-events-processor.js ==========', () => {
 
   describe('shouldRefetchValidToken', () => {
     describe('when it matches the error code', () => {
-      it('it returns true with InvalidSequenceTokenException', () => {
+      it('returns true with InvalidSequenceTokenException', () => {
         expect(shouldRefetchValidToken('InvalidSequenceTokenException'))
           .to.eq(true)
       })
 
-      it('it returns true with DataAlreadyAcceptedException', () => {
+      it('returns true with DataAlreadyAcceptedException', () => {
         expect(shouldRefetchValidToken('DataAlreadyAcceptedException'))
           .to.eq(true)
       })
     })
 
     describe('when it does not match the error code', () => {
-      it('return false', () => {
+      it('returns false', () => {
         expect(shouldRefetchValidToken('alice')).to.eq(false)
       })
     })

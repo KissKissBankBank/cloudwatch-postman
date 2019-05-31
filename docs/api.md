@@ -80,7 +80,7 @@ curl -XPOST -H "Content-type: application/json" -d '{
 # =>
 #  {
 #    message: 'New log events are queued to be sent to CloudWatch Logs.',
-#    jobsParameters: {
+#    jobParameters: {
 #      logGroupName: 'HELLO_WORLD',
 #      logStreamName: 'cloudwatch-postman-test',
 #      logEvents: [
