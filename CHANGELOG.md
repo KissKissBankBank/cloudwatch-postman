@@ -10,6 +10,7 @@ Breaking change:
 - [#24](https://github.com/KissKissBankBank/cloudwatch-postman/pull/24) - Update
   `POST /logEvents` endpoint:
   - Delegate sequenced calls to CloudWatch Logs to a dedicated worker,
+  - Remove response body,
   - Change request parameters. You should pass the following parameters now:
   ```json
   {
