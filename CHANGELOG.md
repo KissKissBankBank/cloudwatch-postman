@@ -7,6 +7,22 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 Breaking change:
 - [#21](https://github.com/KissKissBankBank/cloudwatch-postman/pull/21) - Change
   the configuration variable `APP_SECRET_KEY` into `CLIENT_SECRET_KEY`
+- [#24](https://github.com/KissKissBankBank/cloudwatch-postman/pull/24) - Update
+  `POST /logEvents` endpoint:
+  - Delegate sequenced calls to CloudWatch Logs to a dedicated worker,
+  - Remove response body,
+  - Change request parameters. You should pass the following parameters now:
+  ```json
+  {
+    'accessToken': 'YOUR_UNIQUE_ACCESS_TOKEN',
+    'logGroupName': 'YOUR_LOG_GROUP_NAME',
+    'logStreamName': 'YOUR_LOG_STREAM_NAME',
+     'logEvents': [{
+      'message': 'LOG MESSAGE',
+      'timestamp': 'TIMESTAMP',
+    }]
+  }
+  ```
 
 Feature:
 - [#20](https://github.com/KissKissBankBank/cloudwatch-postman/pull/20) - Add

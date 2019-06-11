@@ -1,5 +1,7 @@
 import chai, { expect } from 'chai'
 import chaiHttp from 'chai-http'
+import sinon from 'sinon'
+import sinonChai from 'sinon-chai'
 import server from './../lib/index'
 import AWS from 'aws-sdk-mock'
 import {
@@ -9,9 +11,12 @@ import {
   createAccessToken,
 } from '../lib/token'
 
+const Queue = require('bull')
+
 global.chai = chai
 global.expect = expect
 chai.use(chaiHttp)
+chai.use(sinonChai)
 
 export const createTestClientToken = () => {
   const date = new Date().getTime()
@@ -207,32 +212,25 @@ describe('=========== index.js ==========', () => {
   })
 
   describe('POST /logEvents', () => {
-    beforeEach(() => {
-      AWS.mock('CloudWatchLogs', 'putLogEvents', function (params, callback){
-        callback(null, { nextSequenceToken: 'foobar' })
-      });
-    })
+    let sandbox
 
-    afterEach(() => {
-      AWS.restore('CloudWatchLogs')
-    })
+    before(() => sandbox = sinon.createSandbox())
+    afterEach(() => sandbox.restore())
 
     describe('with a valid access token', () => {
       it('returns a response', (done) => {
+        const stubbedAdd = sandbox.stub(Queue.prototype, 'add')
         const accessToken = createAccessToken()
         const params = {
           accessToken,
-          params: {
-            logGroupName: 'RUM',
-            logStreamName: 'cloudwatch-postman-test',
-            logEvents: [
-              {
-                message: 'This is a test.',
-                timestamp: '1558602946107',
-              },
-            ],
-            sequenceToken: 'the-cheshire-cat',
-          },
+          logGroupName: 'RUM',
+          logStreamName: 'cloudwatch-postman-test',
+          logEvents: [
+            {
+              message: 'This is a test.',
+              timestamp: '1558602946107',
+            },
+          ],
         }
 
         chai.request(server)
@@ -242,8 +240,8 @@ describe('=========== index.js ==========', () => {
           .end((err, res) => {
             const { status, body } = res
 
+            expect(stubbedAdd).to.have.been.calledOnce
             expect(status).to.eq(201)
-            expect(body.nextSequenceToken).to.eq('foobar')
 
             done()
           })

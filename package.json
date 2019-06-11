@@ -8,9 +8,10 @@
     "clean": "rm -rf dist/*",
     "start": "npm run build && node dist/index.js",
     "serve": "npm run build && node -r dotenv/config dist/index.js",
-    "test": "BABEL_ENV=test NODE_ENV=test mocha --require @babel/register",
-    "dev:test": "BABEL_ENV=test NODE_ENV=test mocha -r @babel/register -r dotenv/config",
-    "dev:start": "npm run build && node -r dotenv/config dist/index.js"
+    "test": "BABEL_ENV=test NODE_ENV=test mocha --exit --require @babel/register",
+    "dev:test": "BABEL_ENV=test NODE_ENV=test mocha --exit -r @babel/register -r dotenv/config",
+    "dev:start": "npm run build && node -r dotenv/config dist/index.js",
+    "jobs:start": "npm run build && node -r dotenv/config dist/worker.js"
   },
   "repository": {
     "type": "git",
@@ -31,7 +32,9 @@
   "license": "MIT",
   "dependencies": {
     "aws-sdk": "^2.457.0",
+    "bull": "^3.9.1",
     "dotenv": "^8.0.0",
+    "ioredis": "^4.9.5",
     "request": "^2.88.0",
     "restify": "^8.3.2",
     "restify-cors-middleware": "^1.1.1"
@@ -46,6 +49,7 @@
     "chai-http": "^4.3.0",
     "mocha": "^6.1.4",
     "sinon": "^7.3.2",
-    "sinon-chai": "^3.3.0"
+    "sinon-chai": "^3.3.0",
+    "sinon-test": "^2.4.0"
   }
 }

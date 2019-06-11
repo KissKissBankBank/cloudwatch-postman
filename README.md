@@ -26,8 +26,9 @@ credentials.
 ## Prerequisites
 
 - Node.js,
+- Redis,
 - Amazon CloudWatch,
-- an AWS account that can call CloudWatch with read and write access.
+- an AWS IAM account that can call CloudWatch with read and write access.
 
 ## Quick start
 
@@ -184,3 +185,5 @@ documentation](https://github.com/KissKissBankBank/cloudwatch-postman/tree/maste
 - [AWS IAM user policies for CloudWatch](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/iam-identity-based-access-control-cwl.html)
 - [AWS IAM user credentials](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/getting-your-credentials.html)
 - [Amazon CloudWatch API for putMetricData](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CloudWatch.html#putMetricData-property)
+- [Amazon CloudWatch Logs API for
+  putLogEvents](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutLogEvents.html)
