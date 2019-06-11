@@ -14,12 +14,12 @@ Breaking change:
   - Change request parameters. You should pass the following parameters now:
   ```json
   {
-    accessToken: 'YOUR_UNIQUE_ACCESS_TOKEN',
-    logGroupName: 'YOUR_LOG_GROUP_NAME',
-    logStreamName: 'YOUR_LOG_STREAM_NAME',
-     logEvents: [{
-      message: 'LOG MESSAGE',
-      timestamp: TIMESTAMP,
+    'accessToken': 'YOUR_UNIQUE_ACCESS_TOKEN',
+    'logGroupName': 'YOUR_LOG_GROUP_NAME',
+    'logStreamName': 'YOUR_LOG_STREAM_NAME',
+     'logEvents': [{
+      'message': 'LOG MESSAGE',
+      'timestamp': 'TIMESTAMP',
     }]
   }
   ```
