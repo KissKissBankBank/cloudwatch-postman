@@ -2,8 +2,13 @@
 
 - [Work with a pull request](#work-with-a-pull-request)
 - [Running the app locally](#running-the-app-locally)
+  - [With a process manager](#with-a-process-manager)
+  - [Running scripts separately](#running-scripts-separately)
 - [Testing](#testing)
 - [Merging](#merging)
+- [Release](#release)
+  - [Prerequisites](#prerequisites)
+  - [Steps](#steps)
 
 ## Work with a pull request
 
@@ -27,9 +32,34 @@ following syntax:
 Create your own `.env` file and set [all the required
 variables](https://github.com/KissKissBankBank/cloudwatch-postman#variables).
 
-Start the app on port `8080`:
+### With a process manager
+
+The application uses a `Procfile` to run two different processes:
+- the API web server,
+- a worker to queue [log
+  events](https://github.com/KissKissBankBank/cloudwatch-postman/blob/master/docs/api.md#post-logevents).
+
+You can start the app using [Heroku
+CLI](https://devcenter.heroku.com/articles/heroku-local):
+```sh
+heroku local
+```
+
+or a process manager like [Overmind](https://github.com/DarthSim/overmind):
+```sh
+overmind start
+```
+
+### Running scripts separately
+
+Start the API web server on port `8080`:
 ```sh
 npm run dev:start
+```
+
+Start the worker:
+```sh
+npm run jobs:start
 ```
 
 ## Testing
@@ -52,6 +82,16 @@ To merge code into `master`:
 
 **Only for [KissKissBankBank](https://github.com/KissKissBankBank)
 collaborators**
+
+### Prerequisites
+
+- Ask an access to the KissKissBankBank Heroku team,
+- Download the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli) to
+safely [add the Heroku git
+remote](https://devcenter.heroku.com/articles/git#for-an-existing-heroku-app) to
+your repository.
+
+### Steps
 
 - Switch on master: `git co master`
 - Pull master: `git pull origin master`
