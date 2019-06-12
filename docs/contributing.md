@@ -33,6 +33,7 @@ Create your own `.env` file and set [all the required
 variables](https://github.com/KissKissBankBank/cloudwatch-postman#variables).
 
 ### With a process manager
+
 The application uses a `Procfile` to run two different processes:
 - the API web server,
 - a worker to queue [log
@@ -91,6 +92,7 @@ remote](https://devcenter.heroku.com/articles/git#for-an-existing-heroku-app) to
 your repository.
 
 ### Steps
+
 - Switch on master: `git co master`
 - Pull master: `git pull origin master`
 - Update the `CHANGELOG.md` file:
