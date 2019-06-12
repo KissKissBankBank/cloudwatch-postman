@@ -4,6 +4,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [unreleased]
 
+## [4.0.1](https://github.com/KissKissBankBank/cloudwatch-postman/compare/v4.0.0...v4.0.1) - 2019-06-12
+
 Fix:
 - [#27](https://github.com/KissKissBankBank/cloudwatch-postman/pull/27) - Use
   `REDIS_URL` environment variable to instanciate Bull queues
