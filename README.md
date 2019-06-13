@@ -174,9 +174,7 @@ Variable | Requirement | Description | Default value
 `CLIENT_SECRET_KEY` | *Required* | Your client secret key. You will share it on your consumer app to generate your client token. |
 `ACCESS_TOKEN_SECRET_KEY` | *Required* | Your access token secret key. It is used to generate all the access tokens. |
 `PORT` | *Optional* | The port on which the server is lauched | `8080`
-`CORS_ALLOWED_ORIGIN` | *Optional* | A list of domain origins to which you grant
-the access to your API. Separate each origin with a comma:
-`alice-in-wonderland.io, the-mad-hatter.com, tweedledee-tweedled.um` | `*`
+`CORS_ALLOWED_ORIGIN` | *Optional* | A list of domain origins to which you grant the access to your API. Separate each origin with a comma: `alice-in-wonderland.io, the-mad-hatter.com, tweedledee-tweedled.um` | `*`
 
 ## Contributing
 
