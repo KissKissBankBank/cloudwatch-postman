@@ -3,7 +3,7 @@
 **Only for [KissKissBankBank](https://github.com/KissKissBankBank)
 collaborators**
 
-### Prerequisites
+## Prerequisites
 
 - Ask an access to the KissKissBankBank Heroku team,
 - Download the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli) to
@@ -11,7 +11,7 @@ safely [add the Heroku git
 remote](https://devcenter.heroku.com/articles/git#for-an-existing-heroku-app) to
 your repository.
 
-### Steps
+## Steps
 
 - Switch on master: `git co master`
 - Pull master: `git pull origin master`
