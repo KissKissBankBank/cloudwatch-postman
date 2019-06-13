@@ -32,9 +32,9 @@ curl -XPOST -H "Content-type: application/json" -d '{"appToken": "YOUR_GENERATED
 
 ### POST /metrics
 
-As this app is a simple proxy, the params formatting is exactly the same as the
-one you should send to the CloudWatch API. You can find more details on the
-[CloudWatch putMetricData
+This endpoint acts as a simple proxy. The params formatting is exactly the same
+as the one you should send to the CloudWatch API. You can find more details on
+the [CloudWatch putMetricData
 documentation](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CloudWatch.html#putMetricData-property).
 
 Example of a curl query:
@@ -58,8 +58,7 @@ curl -XPOST -H "Content-type: application/json" -d '{
 
 ### POST /logEvents
 
-This endpoint does a little more than a simple proxy and enqueues a batch of
-logs to send to CloudWatch Logs.
+This endpoint enqueues a batch of logs to send to CloudWatch Logs.
 
 As [CloudWatch Logs
 API](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutLogEvents.html)
