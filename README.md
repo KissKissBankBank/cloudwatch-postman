@@ -1,9 +1,9 @@
 # CloudWatch Postman [![Codeship Status for KissKissBankBank/cloudwatch-postman](https://app.codeship.com/projects/095c5ef0-5d45-0137-3423-3220a1e64d22/status?branch=master)](https://app.codeship.com/projects/343038)
 
-CloudWatch Postman is a Node proxy that sends data to [Amazon
+CloudWatch Postman is a Node server that sends data to [Amazon
 CloudWatch](https://aws.amazon.com/cloudwatch/). It enables you to serve an API
-with endpoints that add or update your metrics on CloudWatch with your AWS
-credentials.
+with endpoints that add or update your metrics/your logs on CloudWatch with
+your AWS credentials.
 
 - For the moment, configuration of this API is set with environment variables.
 - Its first purpose is to serve some endpoints so an cliend-side application can
@@ -174,6 +174,7 @@ Variable | Requirement | Description | Default value
 `CLIENT_SECRET_KEY` | *Required* | Your client secret key. You will share it on your consumer app to generate your client token. |
 `ACCESS_TOKEN_SECRET_KEY` | *Required* | Your access token secret key. It is used to generate all the access tokens. |
 `PORT` | *Optional* | The port on which the server is lauched | `8080`
+`CORS_ALLOWED_ORIGIN` | *Optional* | A list of domain origins to which you grant the access to your API. Separate each origin with a comma: `alice-in-wonderland.io, the-mad-hatter.com, tweedledee-tweedled.um` | `*`
 
 ## Contributing
 
