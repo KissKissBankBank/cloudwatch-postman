@@ -12,6 +12,8 @@ import {
   saveRefetchedToken,
   handleCloudWatchLogsError,
   processor,
+  memoizeRedis,
+  getQueueCreateClient,
 } from '../lib/log-events-processor'
 import * as CloudWatchLogs from '../lib/cloudwatch-logs'
 
@@ -19,10 +21,24 @@ global.chai = chai
 global.expect = expect
 chai.use(sinonChai)
 
-const redis = require('ioredis')
+const Redis = require('ioredis')
 const sinonTest = require('sinon-test')(sinon)
 
 describe('=========== log-events-processor.js ==========', () => {
+  describe('memoizeRedis', () => {
+    it('returns the same instance every time', () => {
+      const getRedis = memoizeRedis()
+      const redis1 = getRedis()
+
+      expect(redis1).to.be.an.instanceof(Redis)
+
+      const redis2 = getRedis()
+
+      expect(redis2).to.be.an.instanceof(Redis)
+      expect(redis2).to.eq(redis1)
+    })
+  })
+
   describe('tokenKey', () => {
     it('returns a formatted key', () => {
       expect(tokenKey('alice', 'cat')).to.eq('alice-cat-next-token')
@@ -33,7 +49,7 @@ describe('=========== log-events-processor.js ==========', () => {
     it(
       'returns the token related to the logGroupName and logStreamName',
       sinonTest(function() {
-        const stubbedRedisGet = this.stub(redis.prototype, 'get')
+        const stubbedRedisGet = this.stub(Redis.prototype, 'get')
 
         getValidSequenceToken('alice', 'cat')
         expect(stubbedRedisGet).to.have.been.calledWith('alice-cat-next-token')
@@ -43,7 +59,7 @@ describe('=========== log-events-processor.js ==========', () => {
 
   describe('saveValidSequenceToken', () => {
     it('saves the passed token into Redis', sinonTest(function() {
-      const stubbedRedisSet = this.stub(redis.prototype, 'set')
+      const stubbedRedisSet = this.stub(Redis.prototype, 'set')
 
       saveValidSequenceToken('cheshire', 'alice', 'cat')
       expect(stubbedRedisSet)
@@ -311,6 +327,38 @@ describe('=========== log-events-processor.js ==========', () => {
             done()
           })
         }))
+      })
+    })
+  })
+
+  describe('getQueueCreateClient', () => {
+    describe('by default', () => {
+      it('returns a new instance of Redis', () => {
+        const client = 'client'
+        const subscriber = 'subscriber'
+        const createClient = getQueueCreateClient(client, subscriber)
+
+        expect(createClient()).to.be.an.instanceof(Redis)
+      })
+    })
+
+    describe('when the asked type is `client`', () => {
+      it('returns the passed parameter `client`', () => {
+        const client = 'client'
+        const subscriber = 'subscriber'
+        const createClient = getQueueCreateClient(client, subscriber)
+
+        expect(createClient('client')).to.eq('client')
+      })
+    })
+
+    describe('when the asked type is `subscriber`', () => {
+      it('returns the passed parameter `subscriber`', () => {
+        const client = 'client'
+        const subscriber = 'subscriber'
+        const createClient = getQueueCreateClient(client, subscriber)
+
+        expect(createClient('subscriber')).to.eq('subscriber')
       })
     })
   })
