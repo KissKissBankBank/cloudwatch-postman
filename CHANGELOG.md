@@ -5,7 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [unreleased]
 
 Fix:
-- [#30]https://github.com/KissKissBankBank/cloudwatch-postman/pull/30() - Clean
+- [#30](https://github.com/KissKissBankBank/cloudwatch-postman/pull/30) - Clean
   and reuse Redis connections when possible
 
 ## [4.0.1](https://github.com/KissKissBankBank/cloudwatch-postman/compare/v4.0.0...v4.0.1) - 2019-06-12
